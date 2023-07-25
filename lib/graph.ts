@@ -25,7 +25,7 @@ function addEdge(
   graph.get(destination)?.push(origin);
 }
 
-export function searchForRoutes(
+export function searchForRoutesBFS(
   graph: Map<string, string[]>,
   origin: string,
   destination: string
@@ -37,7 +37,7 @@ export function searchForRoutes(
 
   while (queue.length > 0) {
     const node = queue.shift()!;
-    console.log(`searching connections for ${node.name}`);
+    console.log(`searching connections for ${node.name} using BFS`);
     const connections = graph.get(node.name)!;
     for (const connection of connections) {
       if (connection === destination) {
@@ -50,6 +50,39 @@ export function searchForRoutes(
         airportsSearched.add(connection);
         queue.push({ name: connection, previous: node });
       }
+    }
+  }
+}
+
+export function searchForRoutesDFS(
+  graph: Map<string, string[]>,
+  origin: string,
+  destination: string,
+  node: LinkedNode = { name: origin, previous: null },
+  airportsSearched = new Set<string>()
+) {
+  // Use recursion to implement depth first search (DFS)
+  console.log(`searching connections for ${node.name} using DFS`);
+  airportsSearched.add(node.name);
+  const connections = graph.get(node.name)!;
+  for (const connection of connections) {
+    if (connection === destination) {
+      console.log(`found route for ${destination}`);
+      const route: LinkedNode = { name: destination, previous: node };
+      console.log(resolveRoute(route));
+      return;
+    }
+    if (!airportsSearched.has(connection)) {
+      searchForRoutesDFS(
+        graph,
+        connection,
+        destination,
+        {
+          name: connection,
+          previous: node,
+        },
+        airportsSearched
+      );
     }
   }
 }
