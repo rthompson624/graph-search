@@ -1,5 +1,5 @@
 type BinaryTreeNode = {
-  value: number;
+  key: number;
   left: BinaryTreeNode | undefined;
   right: BinaryTreeNode | undefined;
 };
@@ -10,9 +10,9 @@ type BisectedCollection = {
   rightCollection: number[];
 };
 
-export function getBinaryTree(values: number[]) {
-  const sortedValues = [...values].sort();
-  const binaryTree = createBinaryTree(undefined, [sortedValues]);
+export function getBinaryTree(keys: number[]) {
+  const sortedKeys = [...keys].sort();
+  const binaryTree = createBinaryTree(undefined, [sortedKeys]);
   return binaryTree;
 }
 
@@ -34,7 +34,7 @@ function createBinaryTree(
   }
   if (!root) {
     root = {
-      value: bisectedCollection.midPointVal,
+      key: bisectedCollection.midPointVal,
       left: undefined,
       right: undefined,
     };
@@ -44,34 +44,33 @@ function createBinaryTree(
   return createBinaryTree(root, remainingCollectionQueue);
 }
 
-function insertBinaryTreeNode(node: BinaryTreeNode | undefined, value: number) {
+function insertBinaryTreeNode(node: BinaryTreeNode | undefined, key: number) {
   if (!node) {
     node = {
-      value,
+      key,
       left: undefined,
       right: undefined,
     };
     return;
   }
-  if (value === node.value) {
-    console.log(`The key ${value} already exists. Record cannot be inserted.`);
+  if (key === node.key) {
+    console.log(`The key ${key} already exists. Record cannot be inserted.`);
   }
-  if (value < node.value) {
+  if (key < node.key) {
     if (node.left) {
-      insertBinaryTreeNode(node.left, value);
+      insertBinaryTreeNode(node.left, key);
     } else {
-      node.left = { value, left: undefined, right: undefined };
+      node.left = { key: key, left: undefined, right: undefined };
       return;
     }
   } else {
     if (node.right) {
-      insertBinaryTreeNode(node.right, value);
+      insertBinaryTreeNode(node.right, key);
     } else {
-      node.right = { value, left: undefined, right: undefined };
+      node.right = { key: key, left: undefined, right: undefined };
       return;
     }
   }
-  // Duplicate key values will fall here and will be ignored
 }
 
 function bisectCollection(collection: number[]): BisectedCollection {

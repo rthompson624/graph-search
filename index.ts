@@ -8,8 +8,8 @@ import { getBinaryTree } from "./lib/tree";
 // searchForRoutesBFS(graph, "PHX", "BKK");
 // searchForRoutesDFS(graph, "PHX", "BKK");
 
-const testValues = [1, 2, 3, 4, 5, 6, 7] as number[];
-console.log(testValues);
-const tree = getBinaryTree(testValues);
+const testKeys = [1, 2, 3, 4, 5, 6, 7] as number[];
+console.log(testKeys);
+const tree = getBinaryTree(testKeys);
 console.log("And the binary tree is...");
 console.log(tree);
